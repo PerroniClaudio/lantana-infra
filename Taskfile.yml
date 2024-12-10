@@ -1,0 +1,32 @@
+# Taskfile.yml
+
+version: "3"
+
+tasks:
+  create_gcp_project:
+    desc: "Crea un nuovo progetto su Google Cloud Platform"
+    cmds:
+      - "source .env && gcloud projects create $GCP_PROJECT_ID --name='Progetto di esempio'"
+
+  create_service_account:
+    desc: "Crea un account di servizio GCP e ottieni il file delle credenziali"
+    cmds:
+      - "source .env && gcloud iam service-accounts create $GCP_SERVICE_ACCOUNT_NAME --display-name='Account di servizio di esempio'"
+      - "source .env && gcloud projects add-iam-policy-binding $GCP_PROJECT_ID --member='serviceAccount:$GCP_SERVICE_ACCOUNT_NAME@$GCP_PROJECT_ID.iam.gserviceaccount.com' --role='roles/owner'"
+      - "source .env && gcloud iam service-accounts keys create $GCP_CREDENTIALS_FILE --iam-account=$GCP_SERVICE_ACCOUNT_NAME@$GCP_PROJECT_ID.iam.gserviceaccount.com"
+
+  terraform_apply:
+    desc: "Esegui Terraform apply"
+    cmds:
+      - "source .env && terraform init"
+      - "source .env && terraform apply -auto-approve"
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS:
+        sh: "source .env && echo $GCP_CREDENTIALS_FILE"
+
+  all:
+    desc: "Esegui tutti i passaggi"
+    deps:
+      - create_gcp_project
+      - create_service_account
+      - terraform_apply

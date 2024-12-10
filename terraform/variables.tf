@@ -56,3 +56,10 @@ variable "dns_name" {
   type        = string
   default     = "example.com."
 }
+
+# Nuova variabile per l'URL di prova
+variable "provisional_url" {
+  description = "Provisional URL for client site"
+  type        = string
+  default     = "${var.resource_prefix}.lantana.com"
+}
