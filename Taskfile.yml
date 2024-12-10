@@ -6,13 +6,13 @@ tasks:
   create_gcp_project:
     desc: "Crea un nuovo progetto su Google Cloud Platform"
     cmds:
-      - "source .env && gcloud projects create $GCP_PROJECT_ID --name='Progetto di esempio'"
+      - "source .env && gcloud projects create $GCP_PROJECT_ID --name=$GCPT_PROJECT_DISPLAY_NAME"
 
   create_service_account:
     desc: "Crea un account di servizio GCP e ottieni il file delle credenziali"
     cmds:
-      - "source .env && gcloud iam service-accounts create $GCP_SERVICE_ACCOUNT_NAME --display-name='Account di servizio di esempio'"
-      - "source .env && gcloud projects add-iam-policy-binding $GCP_PROJECT_ID --member='serviceAccount:$GCP_SERVICE_ACCOUNT_NAME@$GCP_PROJECT_ID.iam.gserviceaccount.com' --role='roles/owner'"
+      - "source .env && gcloud iam service-accounts create $GCP_SERVICE_ACCOUNT_NAME --display-name=$GCP_SERVICE_ACCOUNT_DISPLAY_NAME"
+      - "source .env && gcloud projects add-iam-policy-binding $GCP_PROJECT_ID --member=serviceAccount:$GCP_SERVICE_ACCOUNT_NAME@$GCP_PROJECT_ID.iam.gserviceaccount.com --role=roles/owner"
       - "source .env && gcloud iam service-accounts keys create $GCP_CREDENTIALS_FILE --iam-account=$GCP_SERVICE_ACCOUNT_NAME@$GCP_PROJECT_ID.iam.gserviceaccount.com"
 
   terraform_apply:

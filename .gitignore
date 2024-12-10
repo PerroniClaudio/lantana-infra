@@ -1,0 +1,20 @@
+# Ignora i file delle credenziali di Google Cloud
+*.json
+
+# Ignora i file di configurazione di Terraform
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform/
+.terraform.lock.hcl
+
+# Ignora i file .env
+.env
+.env.*
+
+# Ignora i file di log
+*.log
+
+# Ignora le cartelle generate da IDE
+.idea/
+.vscode/
